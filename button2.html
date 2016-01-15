@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Adding easyButton plugin in leaflet powered maps</title>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel='stylesheet' href='file:///C:/Users/user/Desktop/New folder (3)/Leaflet.EasyButton-master/src/easy-button.css' />
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="map" style="width: 600px;height: 400px"></div>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src='file:///C:/Users/user/Desktop/New folder (3)/Leaflet.EasyButton-master/src/easy-button.js'></script>
+<script>
+var map = L.map('map').setView([4.6, 2.9], 5);
+mapLink = '<a href="http://openstreetmap.org">openstreetmap</a>,'+'<a href="http://mapsnigeriainitiative.wordpress.com">mapsNI</a>';
+L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: ' &copy; ' + mapLink,maxZoom: 18}).addTo(map);
+
+var  cafe = L.marker([9.37, 7.11]);
+
+var parks = L.polygon([[
+ 	[11.55, 25.36],
+    [6.53, 25.08],
+    [2.30, 28.32],
+    [1.71, 33.82],
+    [8.94, 36.51],
+    [13.41, 35.68],
+    [13.21, 27.77]
+]]);
+
+var stateChangingButton1 = L.easyButton({
+    states: [{
+            stateName: 'add-markers',   
+            icon:      'fa-star',          
+            title:     'add random markers', 
+            onClick: function(btn, map) {  
+                map.addLayer(cafe);
+                btn.state('remove-markers'); 
+            }
+        }, {
+            stateName: 'remove-markers',
+            icon:      'fa-undo',
+            title:     'remove markers',
+            onClick: function(btn, map) {
+                map.removeLayer(cafe);
+                btn.state('add-markers');
+            }
+      }]
+});
+
+stateChangingButton1.addTo(map);
+
+var stateChangingButton2 = L.easyButton({
+ states: [{
+ stateName: 'add-polygons',
+            icon:      'fa-tree',
+            title:     'add random polygons',
+            onClick: function(btn, map) {
+                map.addLayer(parks);
+                btn.state('remove-polygons');
+            }
+  }, {
+            stateName: 'remove-polygons',
+            icon:      'fa-undo',
+            title:     'remove polygons ',
+            onClick: function(btn, map) {
+                map.removeLayer(parks);
+                btn.state('add-polygons');
+            }
+    }]
+});
+
+stateChangingButton2.addTo(map);
+
+</script>
+</body>
+</html>
